@@ -1,0 +1,35 @@
+{
+    "name": "playground/playground",
+    "license": "MPL-2.0",
+    "authors": [
+        {
+            "name": "USAMI Kenta",
+            "email": "tadsan@zonu.me",
+            "homepage": "http://tadsan.github.io/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "nikic/php-parser": "^4.3",
+        "symfony/console": "^5.0",
+        "symfony/process": "^5.0",
+        "thecodingmachine/safe": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Playground\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Playground\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
