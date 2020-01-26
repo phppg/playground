@@ -29,7 +29,7 @@ final class ProcessInvokerTest extends \Playground\TestCase
     {
         $this->tmp_file = new File(tempnam(self::TMP_DIR, __CLASS__));
         $this->proc_factory = new SymfonyProcessFactory();
-        $this->cmd_builder = new DefaultCommand('php');
+        $this->cmd_builder = new DefaultCommand(['name' => 'php', 'noconf' => true]);
     }
 
     public function test(): void
