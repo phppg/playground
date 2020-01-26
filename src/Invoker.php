@@ -3,7 +3,6 @@
 namespace Playground;
 
 use Symfony\Component\Console\Input\InputInterface as Input;
-use Symfony\Component\Console\Output\OutputInterface as Output;
 use Symfony\Component\Process\Process;
 
 /**

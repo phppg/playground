@@ -10,7 +10,6 @@ use Playground\File;
 use Playground\Process\SymfonyProcessFactory as ProcessFactory;
 use Playground\Invoker as InvokerInterface;
 use Symfony\Component\Console\Input\InputInterface as Input;
-use Symfony\Component\Console\Output\OutputInterface as Output;
 use Symfony\Component\Process\Process;
 
 final class ProcessInvoker implements InvokerInterface
