@@ -14,7 +14,7 @@ interface Invoker
     /**
      * PHP Invoker
      *
-     * @return Process<string,string>
+     * @phpstan-return Process<string,string>
      */
     public function invoke(Code $code, Input $input = null): Process;
 }

@@ -12,7 +12,7 @@ final class SymfonyProcessFactory
      * @param ?array<string,string> $env The environment variables or null to use the same environment as the current PHP process
      * @param ?mixed $input The input as stream resource, scalar or \Traversable, or null for no input
      * @param ?float $timeout The timeout in seconds or null to disable
-     * @return Process<string,string>
+     * @phpstan-return Process<string,string>
      */
     public function create(array $command, string $cwd = null, array $env = null, $input = null, ?float $timeout = 60.0): Process
     {

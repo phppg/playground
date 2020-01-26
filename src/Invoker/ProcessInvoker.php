@@ -40,7 +40,7 @@ final class ProcessInvoker implements InvokerInterface
     }
 
     /**
-     * @return Process<string,string>
+     * @phpstan-return Process<string,string>
      */
     public function process(Code $code, Input $input = null): Process
     {
