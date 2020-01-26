@@ -6,6 +6,7 @@
 /cache/
 /log/
 /node_modules/
+/tests/Invoker/tmp/
 /vendor/
 composer.lock
 infection.log
