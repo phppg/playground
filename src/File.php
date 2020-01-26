@@ -10,7 +10,7 @@ class File
 {
     protected string $path;
 
-    protected function __construct(string $path)
+    public function __construct(string $path)
     {
         $this->path = $path;
     }
