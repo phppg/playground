@@ -8,27 +8,35 @@ use Playground\CommandBuilder;
 
 class DefaultCommand implements CommandBuilder
 {
-    private string $name;
     private ?string $ini;
+    private string $name;
+    private bool $noconf;
 
-    public function __construct(string $name, string $ini = null)
+    /**
+     * @param array{name:string,ini?:?string,noconf:bool} $options
+     */
+    public function __construct(array $options)
     {
-        $this->name = $name;
-        $this->ini = $ini;
+        $this->name = $options['name'];
+        $this->ini = $options['ini'] ?? null;
+        $this->noconf = $options['noconf'] ?? false;
     }
 
     /**
-     * @param array{file:string} $options
      * @return string[]
      */
-    public function build(array $options): array
+    public function build(string $file): array
     {
-        $args = ['-f', $options['file']];
+        $args = [];
 
-        if ($this->ini !== null) {
-            $args = ['-c', $this->ini, ...$args];
+        if ($this->noconf) {
+            $args[] = '-n';
         }
 
-        return [$this->name, ...$args];
+        if ($this->ini !== null) {
+            $args = [...$args, '-c', $this->ini];
+        }
+
+        return [$this->name, ...$args, '-f', $file];
     }
 }

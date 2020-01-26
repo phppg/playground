@@ -44,7 +44,7 @@ final class ProcessInvoker implements InvokerInterface
      */
     public function process(Code $code, Input $input = null): Process
     {
-        $cmd = $this->cmd_builder->build(['file' => $this->file->getPath()]);
+        $cmd = $this->cmd_builder->build($this->file->getPath());
         $proc = $this->proc_factory->create($cmd);
 
         return $proc;

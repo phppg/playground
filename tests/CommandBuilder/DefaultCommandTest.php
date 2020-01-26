@@ -10,12 +10,14 @@ final class DefaultCommandTest extends \Playground\TestCase
 {
     /**
      * @dataProvider argsProvider
+     * @param string[] $expected
+     * @param array{name:string,ini?:?string,noconf:bool} $options
      */
     public function test(array $expected, array $options): void
     {
-        $subject = new DefaultCommand(...$options);
+        $subject = new DefaultCommand($options);
 
-        $this->assertSame($expected, $subject->build(['file' => 'file.php']));
+        $this->assertSame($expected, $subject->build('file.php'));
     }
 
     public function argsProvider(): array
@@ -23,15 +25,31 @@ final class DefaultCommandTest extends \Playground\TestCase
         return [
             [
                 ['php', '-f', 'file.php'],
-                ['php'],
+                [
+                    'name' =>'php'
+                ],
             ],
             [
                 ['php', '-f', 'file.php'],
-                ['php', null],
+                [
+                    'name' => 'php',
+                    'ini' => null,
+                ],
             ],
             [
                 ['php', '-c', 'php.ini', '-f', 'file.php'],
-                ['php', 'php.ini'],
+                [
+                    'name' => 'php',
+                    'ini' => 'php.ini',
+                ],
+            ],
+            [
+                ['php', '-n', '-c', 'php.ini', '-f', 'file.php'],
+                [
+                    'name' => 'php',
+                    'ini' => 'php.ini',
+                    'noconf' => true,
+                ],
             ],
         ];
     }

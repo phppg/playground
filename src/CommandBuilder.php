@@ -7,8 +7,7 @@ namespace Playground;
 interface CommandBuilder
 {
     /**
-     * @param array{file:string} $options
      * @return string[]
      */
-    public function build(array $options): array;
+    public function build(string $file): array;
 }
