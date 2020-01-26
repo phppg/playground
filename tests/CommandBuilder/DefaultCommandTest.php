@@ -11,7 +11,7 @@ final class DefaultCommandTest extends \Playground\TestCase
     /**
      * @dataProvider argsProvider
      * @param string[] $expected
-     * @param array{name:string,ini?:?string,noconf:bool} $options
+     * @param array{name:string,ini?:?string,noconf?:bool} $options
      */
     public function test(array $expected, array $options): void
     {
@@ -20,6 +20,9 @@ final class DefaultCommandTest extends \Playground\TestCase
         $this->assertSame($expected, $subject->build('file.php'));
     }
 
+    /**
+     * @return array<array{0:string[],1:array{name:string,ini?:?string,noconf?:bool}}>
+     */
     public function argsProvider(): array
     {
         return [
