@@ -21,7 +21,7 @@ final class ParsedCodeTest extends \Playground\TestCase
     public function setUp(): void
     {
         $this->factory = new ParserFactory();
-        $this->pprinter = new PrettyPrinter\Standard;
+        $this->pprinter = new PrettyPrinter\Standard();
     }
 
     /**

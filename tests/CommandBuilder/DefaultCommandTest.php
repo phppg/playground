@@ -29,7 +29,7 @@ final class DefaultCommandTest extends \Playground\TestCase
             [
                 ['php', '-f', 'file.php'],
                 [
-                    'name' =>'php'
+                    'name' => 'php'
                 ],
             ],
             [

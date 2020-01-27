@@ -2,9 +2,9 @@
 
 namespace Playground;
 
+use function file_exists;
 use Safe\Exceptions\FilesystemException;
 use function Safe\unlink;
-use function file_exists;
 
 final class TempFile extends File
 {

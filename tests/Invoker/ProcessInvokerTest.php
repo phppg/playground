@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Playground\Invoker;
 
 use Playground\Code\SourceCode;
-use Playground\File;
 use Playground\CommandBuilder;
 use Playground\CommandBuilder\DefaultCommand;
+use Playground\File;
 use Playground\Process\SymfonyProcessFactory;
 use function Safe\mkdir;
 use function Safe\tempnam;

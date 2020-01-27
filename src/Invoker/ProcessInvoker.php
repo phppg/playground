@@ -7,8 +7,8 @@ namespace Playground\Invoker;
 use Playground\Code;
 use Playground\CommandBuilder;
 use Playground\File;
-use Playground\Process\SymfonyProcessFactory as ProcessFactory;
 use Playground\Invoker as InvokerInterface;
+use Playground\Process\SymfonyProcessFactory as ProcessFactory;
 use Symfony\Component\Console\Input\InputInterface as Input;
 use Symfony\Component\Process\Process;
 
