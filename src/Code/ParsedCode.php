@@ -42,6 +42,11 @@ final class ParsedCode implements Code
         return $this->ast;
     }
 
+    public function getSource(): ?Code
+    {
+        return $this->source;
+    }
+
     /**
      * @return Node\Stmt[]
      */

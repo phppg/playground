@@ -7,4 +7,6 @@ namespace Playground;
 interface Code
 {
     public function __toString(): string;
+
+    public function getSource(): ?Code;
 }

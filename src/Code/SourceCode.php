@@ -19,4 +19,9 @@ final class SourceCode implements CodeInterface
     {
         return $this->source;
     }
+
+    public function getSource(): ?CodeInterface
+    {
+        return null;
+    }
 }
