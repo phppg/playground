@@ -40,7 +40,15 @@ final class ParsedCodeTest extends \Playground\TestCase
     public function sourceProvider(): array
     {
         return [
-            [
+            'returns only <?php tag from empty input' => [
+                <<<'PHP'
+                <?php
+
+
+                PHP,
+                ''
+            ],
+            'returns only echo from single line' => [
                 <<<'PHP'
                 <?php
 
@@ -48,7 +56,7 @@ final class ParsedCodeTest extends \Playground\TestCase
                 PHP,
                 '<?php echo "foo" ?>'
             ],
-            [
+            'returns only echo from <?=' => [
                 <<<'PHP'
                 <?php
 
