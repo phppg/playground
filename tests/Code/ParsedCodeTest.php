@@ -125,9 +125,9 @@ final class ParsedCodeTest extends \Playground\TestCase
                         PHP,
                     'ast' => [
                         new Node\Stmt\InlineHTML('foo', [
-                                'startLine' => 1,
-                                'endLine' => 1,
-                                'hasLeadingNewline' => true,
+                            'startLine' => 1,
+                            'endLine' => 1,
+                            'hasLeadingNewline' => true,
                         ]),
                     ],
                     'stats' => [
@@ -138,6 +138,111 @@ final class ParsedCodeTest extends \Playground\TestCase
                     ],
                 ],
                 'foo'
+            ],
+            'returns nested if stmts' => [
+                [
+                    'string' => <<<'PHP'
+                        <?php
+
+                        if (true) {
+                            if (true) {
+                                if (true) {
+                                    echo PHP_EOL;
+                                }
+                            }
+                        }
+                        PHP,
+                    'ast' => [
+                        new Node\Stmt\If_(
+                            new Node\Expr\ConstFetch(
+                                new Node\Name('true', [
+                                    'startLine' => 1,
+                                    'endLine' => 1,
+                                ]),
+                                [
+                                    'startLine' => 1,
+                                    'endLine' => 1,
+                                ]
+                            ),
+                            [
+                                'stmts' => [
+                                    new Node\Stmt\If_(
+                                        new Node\Expr\ConstFetch(
+                                            new Node\Name('true', [
+                                                'startLine' => 1,
+                                                'endLine' => 1,
+                                            ]),
+                                            [
+                                                'startLine' => 1,
+                                                'endLine' => 1,
+                                            ]
+                                        ),
+                                        [
+                                            'stmts' => [
+                                                new Node\Stmt\If_(
+                                                    new Node\Expr\ConstFetch(
+                                                        new Node\Name('true', [
+                                                            'startLine' => 1,
+                                                            'endLine' => 1,
+                                                        ]),
+                                                        [
+                                                            'startLine' => 1,
+                                                            'endLine' => 1,
+                                                        ]
+                                                    ),
+                                                    [
+                                                        'stmts' => [
+                                                            new Node\Stmt\Echo_(
+                                                                [
+                                                                    new Node\Expr\ConstFetch(
+                                                                        new Node\Name('PHP_EOL', [
+                                                                            'startLine' => 1,
+                                                                            'endLine' => 1,
+                                                                        ]),
+                                                                        [
+                                                                            'startLine' => 1,
+                                                                            'endLine' => 1,
+                                                                        ]
+                                                                    ),
+                                                                ],
+                                                                [
+                                                                    'startLine' => 1,
+                                                                    'endLine' => 1,
+                                                                ]
+                                                            ),
+
+                                                        ]
+                                                    ],
+                                                    [
+                                                        'startLine' => 1,
+                                                        'endLine' => 1,
+                                                    ]
+                                                ),
+
+                                            ]
+                                        ],
+                                        [
+                                            'startLine' => 1,
+                                            'endLine' => 1,
+                                        ]
+                                    ),
+
+                                ]
+                            ],
+                            [
+                                'startLine' => 1,
+                                'endLine' => 1,
+                            ]
+                        ),
+                    ],
+                    'stats' => [
+                        'chars' => 98,
+                        'lines' => 9,
+                        'tokens' => 36,
+                        'stmts' => 4,
+                    ],
+                ],
+                '<?php if (true) if (true) if (true) echo PHP_EOL;'
             ],
         ];
     }
