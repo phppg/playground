@@ -15,6 +15,7 @@ use function Safe\tempnam;
 final class ProcessInvokerTest extends \Playground\TestCase
 {
     private const TMP_DIR = __DIR__ . '/tmp';
+    private const TIMEOUT = 0.2;
 
     private DefaultCommand $cmd_builder;
     private SymfonyProcessFactory $proc_factory;
@@ -39,6 +40,7 @@ final class ProcessInvokerTest extends \Playground\TestCase
             self::TMP_DIR,
             [],
             $this->tmp_file,
+            self::TIMEOUT,
             $this->proc_factory,
         );
 

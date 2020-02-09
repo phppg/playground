@@ -19,6 +19,7 @@ final class ProcessInvoker implements InvokerInterface
     /** @var array<string,string> */
     private array $env;
     private File $file;
+    private ?float $timeout;
     private ProcessFactory $proc_factory;
 
     /**
@@ -29,12 +30,14 @@ final class ProcessInvoker implements InvokerInterface
         string $cwd,
         array $env,
         File $file,
+        ?float $timeout,
         ProcessFactory $proc_factory
     ) {
         $this->cmd_builder = $cmd_builder;
         $this->cwd = $cwd;
         $this->env = $env;
         $this->file = $file;
+        $this->timeout = $timeout;
         $this->proc_factory = $proc_factory;
     }
 
@@ -44,7 +47,13 @@ final class ProcessInvoker implements InvokerInterface
     public function process(Code $code, Input $input = null): Process
     {
         $cmd = $this->cmd_builder->build($this->file->getPath());
-        $proc = $this->proc_factory->create($cmd);
+        $proc = $this->proc_factory->create(
+            $cmd,
+            $this->cwd,
+            $this->env,
+            $input,
+            $this->timeout,
+        );
 
         return $proc;
     }
