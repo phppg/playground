@@ -9,6 +9,7 @@ use Playground\CommandBuilder;
 use Playground\CommandBuilder\DefaultCommand;
 use Playground\File;
 use Playground\Process\SymfonyProcessFactory;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use function Safe\mkdir;
 use function Safe\tempnam;
 
@@ -48,5 +49,23 @@ final class ProcessInvokerTest extends \Playground\TestCase
         $actual = $subject->invoke($source);
 
         $this->assertSame(PHP_VERSION, $actual->getOutput());
+    }
+
+    public function test_timeout(): void
+    {
+        $this->expectException(ProcessTimedOutException::class);
+        $this->expectExceptionMessage('exceeded the timeout of 0.01 seconds.');
+
+        $subject = new ProcessInvoker(
+            $this->cmd_builder,
+            self::TMP_DIR,
+            [],
+            $this->tmp_file,
+            0.01,
+            $this->proc_factory,
+        );
+
+        $source = new SourceCode('<?php sleep(1);');
+        $_ = $subject->invoke($source);
     }
 }
