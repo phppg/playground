@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Playground\Code;
 
+use PhpParser\Node;
 use PhpParser\NodeDumper;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter;
@@ -26,43 +27,90 @@ final class ParsedCodeTest extends \Playground\TestCase
 
     /**
      * @dataProvider sourceProvider
+     * @param array{string:string,ast:Node\Stmt[]} $expected
      */
-    public function test(string $expected, string $source): void
+    public function test(array $expected, string $source): void
     {
-        $subject = new ParsedCode($this->pprinter, $this->factory, new SourceCode($source));
+        $source_code = new SourceCode($source);
+        $subject = new ParsedCode($this->pprinter, $this->factory, $source_code);
 
-        $this->assertSame($expected, $subject->__toString());
+        $this->assertSame($expected['string'], $subject->__toString());
+        $this->assertEquals($expected['ast'], $subject->getParsedNodes());
     }
 
     /**
-     * @return array<array{0:string,1:string}>
+     * @return array<array{0:array{string:string,ast:Node[]},1:string}>
      */
     public function sourceProvider(): array
     {
         return [
             'returns only <?php tag from empty input' => [
-                <<<'PHP'
-                <?php
+                [
+                    'string' => <<<'PHP'
+                        <?php
 
 
-                PHP,
+                        PHP,
+                    'ast' => [],
+                ],
                 ''
             ],
             'returns only echo from single line' => [
-                <<<'PHP'
-                <?php
+                [
+                    'string' => <<<'PHP'
+                        <?php
 
-                echo "foo";
-                PHP,
+                        echo "foo";
+                        PHP,
+                    'ast' => [
+                        new Node\Stmt\Echo_([
+                            new Node\Scalar\String_('foo', [
+                                'startLine' => 1,
+                                'endLine' => 1,
+                                'kind' => 2,
+                            ])], [
+                                'startLine' => 1,
+                                'endLine' => 1,
+                            ])
+                    ],
+                ],
                 '<?php echo "foo" ?>'
             ],
             'returns only echo from <?=' => [
-                <<<'PHP'
-                <?php
+                [
+                    'string' => <<<'PHP'
+                        <?php
 
-                echo "foo";
-                PHP,
+                        echo "foo";
+                        PHP,
+                    'ast' => [
+                        new Node\Stmt\Echo_([
+                            new Node\Scalar\String_('foo', [
+                                'startLine' => 1,
+                                'endLine' => 1,
+                                'kind' => 2,
+                            ])], [
+                                'startLine' => 1,
+                                'endLine' => 1,
+                            ])
+                    ],
+                ],
                 '<?= "foo" ?>'
+            ],
+            'returns only inline html' => [
+                [
+                    'string' => <<<'PHP'
+                        foo
+                        PHP,
+                    'ast' => [
+                        new Node\Stmt\InlineHTML('foo', [
+                                'startLine' => 1,
+                                'endLine' => 1,
+                                'hasLeadingNewline' => true,
+                        ]),
+                    ],
+                ],
+                'foo'
             ],
         ];
     }
