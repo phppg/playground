@@ -20,6 +20,8 @@ final class StmtCounter extends NodeVisitorAbstract
         if ($node instanceof Stmt) {
             $this->count++;
         }
+
+        return $node;
     }
 
     public function getCount(): int
