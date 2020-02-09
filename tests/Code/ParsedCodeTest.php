@@ -11,6 +11,7 @@ use PhpParser\PrettyPrinter;
 use PhpParser\PrettyPrinterAbstract;
 use Playground\Code\ParsedCode;
 use Playground\Code\SourceCode;
+use Playground\Statistics;
 use Playground\File;
 use Playground\Process\SymfonyProcessFactory;
 
@@ -33,9 +34,11 @@ final class ParsedCodeTest extends \Playground\TestCase
     {
         $source_code = new SourceCode($source);
         $subject = new ParsedCode($this->pprinter, $this->factory, $source_code);
+        $stats = Statistics::fromCode($subject);
 
         $this->assertSame($expected['string'], $subject->__toString());
         $this->assertEquals($expected['ast'], $subject->getParsedNodes());
+        $this->assertEquals($expected['stats'] ?? [], $stats->toArray());
     }
 
     /**
@@ -52,6 +55,12 @@ final class ParsedCodeTest extends \Playground\TestCase
 
                         PHP,
                     'ast' => [],
+                    'stats' => [
+                        'chars' => 7,
+                        'lines' => 3,
+                        'tokens' => 2,
+                        'stmts' => 0,
+                    ],
                 ],
                 ''
             ],
@@ -72,6 +81,12 @@ final class ParsedCodeTest extends \Playground\TestCase
                                 'startLine' => 1,
                                 'endLine' => 1,
                             ])
+                    ],
+                    'stats' => [
+                        'chars' => 18,
+                        'lines' => 3,
+                        'tokens' => 6,
+                        'stmts' => 1,
                     ],
                 ],
                 '<?php echo "foo" ?>'
@@ -94,6 +109,12 @@ final class ParsedCodeTest extends \Playground\TestCase
                                 'endLine' => 1,
                             ])
                     ],
+                    'stats' => [
+                        'chars' => 18,
+                        'lines' => 3,
+                        'tokens' => 6,
+                        'stmts' => 1,
+                    ],
                 ],
                 '<?= "foo" ?>'
             ],
@@ -108,6 +129,12 @@ final class ParsedCodeTest extends \Playground\TestCase
                                 'endLine' => 1,
                                 'hasLeadingNewline' => true,
                         ]),
+                    ],
+                    'stats' => [
+                        'chars' => 3,
+                        'lines' => 1,
+                        'tokens' => 1,
+                        'stmts' => 1,
                     ],
                 ],
                 'foo'
