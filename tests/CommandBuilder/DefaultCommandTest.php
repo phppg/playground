@@ -54,6 +54,17 @@ final class DefaultCommandTest extends \Playground\TestCase
                     'noconf' => true,
                 ],
             ],
+            [
+                ['php', '-n', '-d', 'foo=bar', '-c', 'php.ini', '-f', 'file.php'],
+                [
+                    'name' => 'php',
+                    'ini' => 'php.ini',
+                    'noconf' => true,
+                    'defines' => [
+                        'foo' => 'bar'
+                    ],
+                ],
+            ],
         ];
     }
 }
