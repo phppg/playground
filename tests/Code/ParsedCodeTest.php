@@ -60,6 +60,7 @@ final class ParsedCodeTest extends \Playground\TestCase
                         'lines' => 3,
                         'tokens' => 2,
                         'stmts' => 0,
+                        'node_names' => [],
                     ],
                 ],
                 ''
@@ -87,6 +88,10 @@ final class ParsedCodeTest extends \Playground\TestCase
                         'lines' => 3,
                         'tokens' => 6,
                         'stmts' => 1,
+                        'node_names' => [
+                            Node\Scalar\String_::class,
+                            Node\Stmt\Echo_::class,
+                        ],
                     ],
                 ],
                 '<?php echo "foo" ?>'
@@ -114,6 +119,10 @@ final class ParsedCodeTest extends \Playground\TestCase
                         'lines' => 3,
                         'tokens' => 6,
                         'stmts' => 1,
+                        'node_names' => [
+                            Node\Scalar\String_::class,
+                            Node\Stmt\Echo_::class,
+                        ],
                     ],
                 ],
                 '<?= "foo" ?>'
@@ -135,6 +144,9 @@ final class ParsedCodeTest extends \Playground\TestCase
                         'lines' => 1,
                         'tokens' => 1,
                         'stmts' => 1,
+                        'node_names' => [
+                            Node\Stmt\InlineHTML::class
+                        ],
                     ],
                 ],
                 'foo'
@@ -240,6 +252,12 @@ final class ParsedCodeTest extends \Playground\TestCase
                         'lines' => 9,
                         'tokens' => 36,
                         'stmts' => 4,
+                        'node_names' => [
+                            Node\Expr\ConstFetch::class,
+                            Node\Name::class,
+                            Node\Stmt\Echo_::class,
+                            Node\Stmt\If_::class,
+                        ],
                     ],
                 ],
                 '<?php if (true) if (true) if (true) echo PHP_EOL;'

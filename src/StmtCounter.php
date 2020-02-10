@@ -7,25 +7,43 @@ namespace Playground;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeVisitorAbstract;
+use function count;
 
 final class StmtCounter extends NodeVisitorAbstract
 {
-    private int $count = 0;
+    private int $stmt_count = 0;
+    /** @var array<string,true> */
+    private array $classes = [];
 
     /**
-     * @return void
+     * @return Node
      */
     public function enterNode(Node $node)
     {
+        $class = get_class($node);
+        $this->classes[$class] = true;
+
         if ($node instanceof Stmt) {
-            $this->count++;
+            $this->stmt_count++;
         }
 
         return $node;
     }
 
-    public function getCount(): int
+    /**
+     * @return string[]
+     */
+    public function getClasses(): array
     {
-        return $this->count;
+        $classes = array_keys($this->classes);
+
+        sort($classes);
+
+        return $classes;
+    }
+
+    public function getStmtCount(): int
+    {
+        return $this->stmt_count;
     }
 }

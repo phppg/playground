@@ -20,6 +20,8 @@ final class Statistics
     public int $lines;
     public int $tokens;
     public int $stmts;
+    /** @var string[] */
+    public array $node_names;
 
     private function __construct()
     {
@@ -45,15 +47,16 @@ final class Statistics
 
     /**
      * @pararm Node[] $nodes
+     * @return array{0:int,1:string[]}
      */
-    public static function countStmts(array $nodes): int
+    public static function countStmts(array $nodes): array
     {
         $stmt_counter = new StmtCounter;
         $traverser = new NodeTraverser();
         $traverser->addVisitor($stmt_counter);
         $traverser->traverse($nodes);
 
-        return $stmt_counter->getCount();
+        return [$stmt_counter->getStmtCount(), $stmt_counter->getClasses()];
     }
 
     public static function fromCode(ParsedCode $code): self
@@ -64,7 +67,7 @@ final class Statistics
         $stats->chars = mb_strlen($source_code, 'UTF-8');
         $stats->lines = count(explode("\n", $source_code));
         $stats->tokens = count(token_get_all($source_code));
-        $stats->stmts = self::countStmts($code->getParsedNodes());
+        [$stats->stmts, $stats->node_names] = self::countStmts($code->getParsedNodes());
 
         return $stats;
     }
@@ -76,6 +79,7 @@ final class Statistics
             'lines' => $this->lines,
             'tokens' => $this->tokens,
             'stmts' => $this->stmts,
+            'node_names' => $this->node_names,
         ];
     }
 }
