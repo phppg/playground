@@ -2,7 +2,6 @@
 
 namespace Playground;
 
-use Symfony\Component\Console\Input\InputInterface as Input;
 use Symfony\Component\Process\Process;
 
 /**
@@ -15,5 +14,5 @@ interface Invoker
      *
      * @phpstan-return Process<string,string>
      */
-    public function invoke(Code $code, Input $input = null): Process;
+    public function invoke(Code $code, ?string $input = null): Process;
 }
