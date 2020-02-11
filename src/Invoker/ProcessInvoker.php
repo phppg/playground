@@ -44,7 +44,7 @@ final class ProcessInvoker implements InvokerInterface
     /**
      * @phpstan-return Process<string,string>
      */
-    public function process(Code $code, Input $input = null): Process
+    public function process(Code $code, ?string $input = null): Process
     {
         $cmd = $this->cmd_builder->build($this->file->getPath());
         $proc = $this->proc_factory->create(
@@ -58,7 +58,7 @@ final class ProcessInvoker implements InvokerInterface
         return $proc;
     }
 
-    public function invoke(Code $code, Input $input = null): Process
+    public function invoke(Code $code, ?string $input = null): Process
     {
         $proc = $this->process($code, $input);
 
