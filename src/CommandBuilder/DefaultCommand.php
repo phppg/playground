@@ -25,9 +25,6 @@ class DefaultCommand implements CommandBuilder
         $this->defines = $options['defines'] ?? [];
     }
 
-    /**
-     * @return string[]
-     */
     public function build(string $file): array
     {
         $args = [];

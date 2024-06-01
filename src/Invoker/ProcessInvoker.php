@@ -14,31 +14,17 @@ use Symfony\Component\Process\Process;
 
 final class ProcessInvoker implements InvokerInterface
 {
-    private CommandBuilder $cmd_builder;
-    private string $cwd;
-    /** @var array<string,string> */
-    private array $env;
-    private File $file;
-    private ?float $timeout;
-    private ProcessFactory $proc_factory;
-
     /**
      * @param array<string,string> $env
      */
     public function __construct(
-        CommandBuilder $cmd_builder,
-        string $cwd,
-        array $env,
-        File $file,
-        ?float $timeout,
-        ProcessFactory $proc_factory
+        private CommandBuilder $cmd_builder,
+        private string $cwd,
+        private array $env,
+        private File $file,
+        private ?float $timeout,
+        private ProcessFactory $proc_factory,
     ) {
-        $this->cmd_builder = $cmd_builder;
-        $this->cwd = $cwd;
-        $this->env = $env;
-        $this->file = $file;
-        $this->timeout = $timeout;
-        $this->proc_factory = $proc_factory;
     }
 
     /**
@@ -46,7 +32,7 @@ final class ProcessInvoker implements InvokerInterface
      */
     public function process(Code $code, ?string $input = null): Process
     {
-        $cmd = $this->cmd_builder->build($this->file->getPath());
+        $cmd = $this->cmd_builder->build($this->file->path);
         $proc = $this->proc_factory->create(
             $cmd,
             $this->cwd,

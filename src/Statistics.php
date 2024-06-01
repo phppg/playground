@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Playground;
 
 use function count;
@@ -11,16 +13,13 @@ use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use Playground\Code\ParsedCode;
 
-/**
- * @property int $lines
- */
 final class Statistics
 {
     public int $chars;
     public int $lines;
     public int $tokens;
     public int $stmts;
-    /** @var string[] */
+    /** @var list<non-falsy-string> */
     public array $node_names;
 
     private function __construct()
@@ -46,8 +45,8 @@ final class Statistics
     }
 
     /**
-     * @pararm Node[] $nodes
-     * @return array{0:int,1:string[]}
+     * @param Node[] $nodes
+     * @return array{0|positive-int, list<non-falsy-string>}
      */
     public static function countStmts(array $nodes): array
     {
@@ -72,6 +71,9 @@ final class Statistics
         return $stats;
     }
 
+    /**
+     * @phpstan-return array{chars: int, lines: int, tokens: int, stmts: int, node_names: array<string>}
+     */
     public function toArray(): array
     {
         return [

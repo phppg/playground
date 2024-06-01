@@ -6,13 +6,11 @@ namespace Playground\Code;
 
 use Playground\Code as CodeInterface;
 
-final class SourceCode implements CodeInterface
+final readonly class SourceCode implements CodeInterface
 {
-    private string $source;
-
-    public function __construct(string $source)
-    {
-        $this->source = $source;
+    public function __construct(
+        private string $source
+    ) {
     }
 
     public function __toString(): string

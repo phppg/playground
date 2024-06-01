@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Playground;
 
-use function file_exists;
 use Safe\Exceptions\FilesystemException;
+use function file_exists;
 use function Safe\unlink;
 
-final class TempFile extends File
+final readonly class TempFile extends File
 {
     public function __destruct()
     {
@@ -14,7 +16,7 @@ final class TempFile extends File
             if (file_exists($this->path)) {
                 unlink($this->path);
             }
-        } catch (FilesystemException $e) {
+        } catch (FilesystemException) {
             // noop
         }
     }

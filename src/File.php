@@ -6,13 +6,15 @@ namespace Playground;
 
 use function Safe\file_put_contents;
 
-class File
+readonly class File
 {
-    protected string $path;
-
-    public function __construct(string $path)
+    /**
+     * @phpstan-param non-falsy-string $path
+     */
+    public function __construct(
+        public string $path,
+    )
     {
-        $this->path = $path;
     }
 
     public function getPath(): string

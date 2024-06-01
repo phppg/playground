@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Playground\Process;
 
 use Symfony\Component\Process\Process;

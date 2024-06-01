@@ -6,8 +6,6 @@ namespace Playground;
 
 interface CommandBuilder
 {
-    /**
-     * @return string[]
-     */
+    /** @phpstan-return non-empty-list<string> */
     public function build(string $file): array;
 }

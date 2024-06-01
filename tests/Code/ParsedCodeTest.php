@@ -25,7 +25,7 @@ final class ParsedCodeTest extends \Playground\TestCase
     }
 
     /**
-     * @param array{string:string,ast:Node\Stmt[]} $expected
+     * @param array{string:string,ast:Node\Stmt[], stats: array<mixed>} $expected
      */
     #[DataProvider('sourceProvider')]
     public function test(array $expected, string $source): void
@@ -36,13 +36,13 @@ final class ParsedCodeTest extends \Playground\TestCase
 
         $this->assertSame($expected['string'], $subject->__toString());
         $this->assertEquals($expected['ast'], $subject->getParsedNodes());
-        $this->assertEquals($expected['stats'] ?? [], $stats->toArray());
+        $this->assertEquals($expected['stats'], $stats->toArray());
     }
 
     /**
-     * @return array<array{0:array{string:string,ast:Node[]},1:string}>
+     * @return iterable<array{array{string: string, ast: Node[], stats: array<mixed>}, string}>
      */
-    public static function sourceProvider(): array
+    public static function sourceProvider(): iterable
     {
         return [
             'returns only <?php tag from empty input' => [
