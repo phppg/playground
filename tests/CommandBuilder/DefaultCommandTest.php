@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Playground\CommandBuilder;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Playground\CommandBuilder\DefaultCommand;
 
 final class DefaultCommandTest extends \Playground\TestCase
 {
     /**
-     * @dataProvider argsProvider
      * @param string[] $expected
      * @param array{name:string,ini?:?string,noconf?:bool} $options
      */
+    #[DataProvider('argsProvider')]
     public function test(array $expected, array $options): void
     {
         $subject = new DefaultCommand($options);
@@ -23,7 +24,7 @@ final class DefaultCommandTest extends \Playground\TestCase
     /**
      * @return array<array{0:string[],1:array{name:string,ini?:?string,noconf?:bool}}>
      */
-    public function argsProvider(): array
+    public static function argsProvider(): array
     {
         return [
             [

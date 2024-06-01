@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Playground\Code;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PhpParser\Node;
-use PhpParser\NodeDumper;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter;
 use PhpParser\PrettyPrinterAbstract;
 use Playground\Code\ParsedCode;
 use Playground\Code\SourceCode;
 use Playground\Statistics;
-use Playground\File;
-use Playground\Process\SymfonyProcessFactory;
 
 final class ParsedCodeTest extends \Playground\TestCase
 {
@@ -27,9 +25,9 @@ final class ParsedCodeTest extends \Playground\TestCase
     }
 
     /**
-     * @dataProvider sourceProvider
      * @param array{string:string,ast:Node\Stmt[]} $expected
      */
+    #[DataProvider('sourceProvider')]
     public function test(array $expected, string $source): void
     {
         $source_code = new SourceCode($source);
@@ -44,7 +42,7 @@ final class ParsedCodeTest extends \Playground\TestCase
     /**
      * @return array<array{0:array{string:string,ast:Node[]},1:string}>
      */
-    public function sourceProvider(): array
+    public static function sourceProvider(): array
     {
         return [
             'returns only <?php tag from empty input' => [
@@ -78,7 +76,16 @@ final class ParsedCodeTest extends \Playground\TestCase
                                 'startLine' => 1,
                                 'endLine' => 1,
                                 'kind' => 2,
+                                'startTokenPos' => 3,
+                                'startFilePos' => 11,
+                                'endTokenPos' => 3,
+                                'endFilePos' => 15,
+                                'rawValue' => '"foo"',
                             ])], [
+                                'startTokenPos' => 1,
+                                'startFilePos' => 6,
+                                'endTokenPos' => 5,
+                                'endFilePos' => 18,
                                 'startLine' => 1,
                                 'endLine' => 1,
                             ])
@@ -109,9 +116,18 @@ final class ParsedCodeTest extends \Playground\TestCase
                                 'startLine' => 1,
                                 'endLine' => 1,
                                 'kind' => 2,
+                                'startTokenPos' => 2,
+                                'startFilePos' => 4,
+                                'endTokenPos' => 2,
+                                'endFilePos' => 8,
+                                'rawValue' => '"foo"',
                             ])], [
                                 'startLine' => 1,
                                 'endLine' => 1,
+                                'startTokenPos' => 0,
+                                'startFilePos' => 0,
+                                'endTokenPos' => 4,
+                                'endFilePos' => 11,
                             ])
                     ],
                     'stats' => [
@@ -137,6 +153,10 @@ final class ParsedCodeTest extends \Playground\TestCase
                             'startLine' => 1,
                             'endLine' => 1,
                             'hasLeadingNewline' => true,
+                            'startTokenPos' => 0,
+                            'startFilePos' => 0,
+                            'endTokenPos' => 0,
+                            'endFilePos' => 2,
                         ]),
                     ],
                     'stats' => [
@@ -170,24 +190,40 @@ final class ParsedCodeTest extends \Playground\TestCase
                                 new Node\Name('true', [
                                     'startLine' => 1,
                                     'endLine' => 1,
+                                    'startTokenPos' => 4,
+                                    'startFilePos' => 10,
+                                    'endTokenPos' => 4,
+                                    'endFilePos' => 13,
                                 ]),
-                                [
+                                attributes: [
                                     'startLine' => 1,
                                     'endLine' => 1,
-                                ]
+                                    'startTokenPos' => 4,
+                                    'startFilePos' => 10,
+                                    'endTokenPos' => 4,
+                                    'endFilePos' => 13,
+                                ],
                             ),
-                            [
+                            subNodes: [
                                 'stmts' => [
                                     new Node\Stmt\If_(
                                         new Node\Expr\ConstFetch(
                                             new Node\Name('true', [
                                                 'startLine' => 1,
                                                 'endLine' => 1,
+                                                'startTokenPos' => 10,
+                                                'startFilePos' => 20,
+                                                'endTokenPos' => 10,
+                                                'endFilePos' => 23,
                                             ]),
-                                            [
+                                            attributes: [
                                                 'startLine' => 1,
                                                 'endLine' => 1,
-                                            ]
+                                                'startTokenPos' => 10,
+                                                'startFilePos' => 20,
+                                                'endTokenPos' => 10,
+                                                'endFilePos' => 23,
+                                            ],
                                         ),
                                         [
                                             'stmts' => [
@@ -196,10 +232,18 @@ final class ParsedCodeTest extends \Playground\TestCase
                                                         new Node\Name('true', [
                                                             'startLine' => 1,
                                                             'endLine' => 1,
+                                                            'startTokenPos' => 16,
+                                                            'startFilePos' => 30,
+                                                            'endTokenPos' => 16,
+                                                            'endFilePos' => 33,
                                                         ]),
-                                                        [
+                                                        attributes: [
                                                             'startLine' => 1,
                                                             'endLine' => 1,
+                                                            'startTokenPos' => 16,
+                                                            'startFilePos' => 30,
+                                                            'endTokenPos' => 16,
+                                                            'endFilePos' => 33,
                                                         ]
                                                     ),
                                                     [
@@ -210,17 +254,29 @@ final class ParsedCodeTest extends \Playground\TestCase
                                                                         new Node\Name('PHP_EOL', [
                                                                             'startLine' => 1,
                                                                             'endLine' => 1,
+                                                                            'startTokenPos' => 21,
+                                                                            'startFilePos' => 41,
+                                                                            'endTokenPos' => 21,
+                                                                            'endFilePos' => 47,
                                                                         ]),
-                                                                        [
+                                                                        attributes: [
                                                                             'startLine' => 1,
                                                                             'endLine' => 1,
-                                                                        ]
+                                                                            'startTokenPos' => 21,
+                                                                            'startFilePos' => 41,
+                                                                            'endTokenPos' => 21,
+                                                                            'endFilePos' => 47,
+                                                                        ],
                                                                     ),
                                                                 ],
-                                                                [
+                                                                attributes: [
                                                                     'startLine' => 1,
                                                                     'endLine' => 1,
-                                                                ]
+                                                                    'startTokenPos' => 19,
+                                                                    'startFilePos' => 36,
+                                                                    'endTokenPos' => 22,
+                                                                    'endFilePos' => 48,
+                                                                ],
                                                             ),
 
                                                         ]
@@ -228,7 +284,11 @@ final class ParsedCodeTest extends \Playground\TestCase
                                                     [
                                                         'startLine' => 1,
                                                         'endLine' => 1,
-                                                    ]
+                                                        'startTokenPos' => 13,
+                                                        'startFilePos' => 26,
+                                                        'endTokenPos' => 22,
+                                                        'endFilePos' => 48,
+                                                    ],
                                                 ),
 
                                             ]
@@ -236,15 +296,23 @@ final class ParsedCodeTest extends \Playground\TestCase
                                         [
                                             'startLine' => 1,
                                             'endLine' => 1,
-                                        ]
+                                            'startTokenPos' => 7,
+                                            'startFilePos' => 16,
+                                            'endTokenPos' => 22,
+                                            'endFilePos' => 48,
+                                        ],
                                     ),
 
                                 ]
                             ],
-                            [
+                            attributes: [
                                 'startLine' => 1,
                                 'endLine' => 1,
-                            ]
+                                'startTokenPos' => 1,
+                                'startFilePos' => 6,
+                                'endTokenPos' => 22,
+                                'endFilePos' => 48,
+                            ],
                         ),
                     ],
                     'stats' => [
